@@ -12,10 +12,11 @@ var Question = require('../models/Question.js');
 router.post('/register', function(req, res) {
   User.register(new User({
     username: req.body.username,
-    firstName: req.body.firstname,
-    lastName: req.body.lastname,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     faculty: req.body.faculty,
-    degree: req.body.degree
+    degree: req.body.degree,
+    role: 'user'
   }), req.body.password, function(err, account) {
     if (err) {
       return res.status(500).json({
@@ -46,9 +47,10 @@ router.post('/login', function(req, res, next) {
           err: 'Could not log in user'
         });
       }
+    
       res.status(200).json({
         status: 'Login successful!',
-        username: req.body.username,
+        user: user
       });
     });
   })(req, res, next);
@@ -203,7 +205,7 @@ router.post('/saveFinishedTest', function(req, res, next) {
     
     promise2.then(function(result) {
 
-      // Create an instance of model Question 
+      // Create an instance of model Finishedtest 
       var finishedtest = new Finishedtest({
         time_started : req.body.time_started,
         time_finished : req.body.time_finished,

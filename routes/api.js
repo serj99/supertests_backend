@@ -165,6 +165,15 @@ router.get('/testsInfoList', function(req, res) {
   });
 });
 
+router.get('/finishedTestsList', function(req, res) {
+ Finishedtest.find({}).
+ populate('user', 'username').
+ populate('test', 'name').
+ exec(function(err, finishedtests) {
+    res.send(finishedtests);  
+  });
+});
+
 router.get('/questionsList', function(req, res) {
   Test.
   findOne({ _id: req.query.test_id }).
@@ -242,7 +251,6 @@ router.post('/saveFinishedTest', function(req, res, next) {
   });
 
 });
-   
 
 module.exports = router;
 
